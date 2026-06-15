@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autorização de Partilha de Perfil</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f3;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-pill {
+      padding: 6px 18px;
+      border: 1px solid #d0d0cc;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      background: #ffffff;
+      letter-spacing: 0.01em;
+    }
+
+    .sep {
+      font-size: 18px;
+      color: #aaa;
+      font-weight: 300;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.65;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e8e8e4;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.25rem;
+    }
+
+    .field {
+      margin-bottom: 1.1rem;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .required {
+      color: #c0392b;
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      color: #1a1a1a;
+      background: #fafafa;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: inherit;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus {
+      border-color: #1a1a1a;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+      background: #fff;
+    }
+
+    .consent-box {
+      background: #f9f9f7;
+      border: 1px solid #e5e5e0;
+      border-radius: 8px;
+      padding: 1.1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .consent-text {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .consent-text strong {
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .check-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .check-row input[type="checkbox"] {
+      margin-top: 2px;
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: #1a1a1a;
+    }
+
+    .check-label {
+      font-size: 13px;
+      color: #1a1a1a;
+      line-height: 1.6;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background: #1a1a1a;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.15s;
+      margin-top: 0.25rem;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      opacity: 0.85;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .footer-note {
+      font-size: 12px;
+      color: #999;
+      line-height: 1.65;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    /* Success state */
+    .success-area {
+      display: none;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .success-icon {
+      width: 56px;
+      height: 56px;
+      background: #e8f5e9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+
+    .success-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: #2e7d32;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .success h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 0.6rem;
+    }
+
+    .success p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.65;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: #c0392b;
+      margin-top: 0.75rem;
+      text-align: center;
+      display: none;
+    }
+
+    .sending-overlay {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+      font-size: 14px;
+      color: #666;
+    }
+
+    @media (max-width: 480px) {
+      .field-row { grid-template-columns: 1fr; }
+      h1 { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logos">
+      <span class="logo-pill">Get The Job</span>
+      <span class="sep">×</span>
+      <span class="logo-pill">VDC Consulting</span>
+    </div>
+    <h1>Autorização de partilha de perfil</h1>
+    <p class="subtitle">Para podermos apresentar a sua candidatura a oportunidades junto dos nossos parceiros, precisamos da sua autorização formal.</p>
+  </div>
+
+  <!-- Form -->
+  <div id="form-area">
+
+    <div class="card">
+      <p class="card-title">Os seus dados</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="fname">Nome<span class="required">*</span></label>
+          <input type="text" id="fname" placeholder="Primeiro nome" autocomplete="given-name" />
+        </div>
+        <div class="field">
+          <label for="lname">Apelido<span class="required">*</span></label>
+          <input type="text" id="lname" placeholder="Apelido" autocomplete="family-name" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="email">Email<span class="required">*</span></label>
+        <input type="email" id="email" placeholder="o.seu.email@exemplo.com" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="phone">Telefone</label>
+        <input type="tel" id="phone" placeholder="+351 9XX XXX XXX" autocomplete="tel" />
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Consentimento</p>
+      <div class="consent-box">
+        <p class="consent-text">
+          Ao submeter este formulário, autorizo expressamente que o meu Curriculum Vitae e os dados pessoais nele contidos sejam incluídos e tratados nas bases de dados da <strong>Get The Job</strong> (Job Done Unipessoal, Lda) e da <strong>VDC Consulting</strong>, para efeitos de recrutamento e seleção, em conformidade com o RGPD (Regulamento (UE) 2016/679).
+        </p>
+        <p class="consent-text">
+          Compreendo que ambas as empresas poderão contactar-me para oportunidades profissionais que considerem adequadas ao meu perfil, e que posso revogar esta autorização a qualquer momento através dos contactos disponibilizados por cada entidade.
+        </p>
+        <label class="check-row" for="consent">
+          <input type="checkbox" id="consent" />
+          <span class="check-label">Li e aceito os termos acima, autorizando a partilha do meu perfil entre a Get The Job e a VDC Consulting.</span>
+        </label>
+      </div>
+
+      <button class="btn-submit" id="submit-btn" disabled onclick="handleSubmit()">
+        Confirmar autorização
+      </button>
+
+      <p class="error-msg" id="error-msg">Ocorreu um erro ao guardar. Por favor tente novamente.</p>
+      <div class="sending-overlay" id="sending-msg">A registar a sua autorização…</div>
+
+      <p class="footer-note">
+        Este registo é guardado com data e hora como prova do consentimento, em conformidade com o RGPD.<br>
+        Pode exercer os seus direitos de acesso, retificação ou apagamento contactando qualquer uma das empresas.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Success -->
+  <div class="success-area" id="success-area">
+    <div class="success">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Autorização registada</h2>
+      <p>O seu consentimento foi registado com sucesso. Obrigado pela confiança — entraremos em contacto assim que identificarmos uma oportunidade adequada ao seu perfil.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ============================================================
+  // CONFIGURAÇÃO — substitui este URL pelo do teu Apps Script
+  // (ver ficheiro apps-script.gs para obter o URL após publicar)
+  // ============================================================
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzf9TNIizs3xACLiEPLe2FINLqLfEmUw_FwxCEZiorfuxNJC6ImhcR92ZIJ3x6dB1rs/exec";
+  // ============================================================
+
+  const consent = document.getElementById('consent');
+  const btn = document.getElementById('submit-btn');
+
+  function checkForm() {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    btn.disabled = !(consent.checked && fname && lname && emailValid);
+  }
+
+  ['fname', 'lname', 'email'].forEach(id => {
+    document.getElementById(id).addEventListener('input', checkForm);
+  });
+  consent.addEventListener('change', checkForm);
+
+  async function handleSubmit() {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    btn.disabled = true;
+    document.getElementById('error-msg').style.display = 'none';
+    document.getElementById('sending-msg').style.display = 'block';
+
+    const payload = {
+      nome: fname + ' ' + lname,
+      email: email,
+      telefone: phone || '—',
+      timestamp: new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' }),
+      consentimento: 'Sim — autoriza partilha GTJ + VDC'
+    };
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      document.getElementById('form-area').style.display = 'none';
+      document.getElementById('success-area').style.display = 'block';
+    } catch (err) {
+      document.getElementById('sending-msg').style.display = 'none';
+      document.getElementById('error-msg').style.display = 'block';
+      btn.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>
