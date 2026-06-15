@@ -381,39 +381,37 @@
   consent.addEventListener('change', checkForm);
 
   async function handleSubmit() {
-    const fname = document.getElementById('fname').value.trim();
-    const lname = document.getElementById('lname').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
 
-    btn.disabled = true;
-    document.getElementById('error-msg').style.display = 'none';
-    document.getElementById('sending-msg').style.display = 'block';
+  btn.disabled = true;
+  document.getElementById('error-msg').style.display = 'none';
+  document.getElementById('sending-msg').style.display = 'block';
 
-    const payload = {
-      nome: fname + ' ' + lname,
-      email: email,
-      telefone: phone || '—',
-      timestamp: new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' }),
-      consentimento: 'Sim — autoriza partilha GTJ + VDC'
-    };
+  const params = new URLSearchParams({
+    nome: fname + ' ' + lname,
+    email: email,
+    telefone: phone || '—',
+    timestamp: new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' }),
+    consentimento: 'Sim — autoriza partilha GTJ + VDC'
+  });
 
-    try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+  try {
+    await fetch(APPS_SCRIPT_URL + '?' + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors'
+    });
 
-      document.getElementById('form-area').style.display = 'none';
-      document.getElementById('success-area').style.display = 'block';
-    } catch (err) {
-      document.getElementById('sending-msg').style.display = 'none';
-      document.getElementById('error-msg').style.display = 'block';
-      btn.disabled = false;
-    }
+    document.getElementById('form-area').style.display = 'none';
+    document.getElementById('success-area').style.display = 'block';
+  } catch (err) {
+    document.getElementById('sending-msg').style.display = 'none';
+    document.getElementById('error-msg').style.display = 'block';
+    btn.disabled = false;
   }
+}
 </script>
 
 </body>
